@@ -1,5 +1,5 @@
 # -------------------------------------------
-# Config Map for internal Componet / Service
+# Config Map for internal Component / Service
 # -------------------------------------------
 apiVersion: v1
 kind: ConfigMap
