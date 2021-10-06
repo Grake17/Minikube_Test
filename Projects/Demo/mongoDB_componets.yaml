@@ -1,0 +1,58 @@
+# -------------------------------------------
+# Mongo DB Componet ( Abstraction of container where mongodb run )
+# -------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-deployment # Name of the componet
+spec:
+  replicas: 1 # Number of the replicas componet
+  selector:
+    matchLabels:
+      app: mongodb # DNS name data will be use by service for connetion
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo # https://hub.docker.com/_/mongo
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 27017 # The port of mongo-db listening ( the port must be the same of db-image )
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME # Env Var https://hub.docker.com/_/mongo
+              valueFrom:
+                # This data is get from the Secret Componet
+                secretKeyRef:
+                  name: mongodb-secret # Name of the service
+                  key: mongo_user # Name of the data
+
+            - name: MONGO_INITDB_ROOT_PASSWORD # Env Var https://hub.docker.com/_/mongo
+              valueFrom:
+                # This data is get from the Secret Componet
+                secretKeyRef:
+                  name: mongodb-secret # Name of the service
+                  key: mongo_password # Name of the data
+
+            - name: ME_CONFIG_MONGODB_ENABLE_ADMIN # Setting to view server stats
+              value: "True" 
+
+---
+# -------------------------------------------
+# Mongo DB Service for interact with other component
+# -------------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service # The Name of the service
+spec:
+  selector:
+    app: mongodb # This data must be da same of mongodb-deployment labels
+  ports:
+    - port: 27017 # This value is the listening port of the mongodb-service
+      targetPort: 27017 # The target port referts to the ContainerPort of mongodb-deployment

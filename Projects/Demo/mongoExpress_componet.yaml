@@ -1,0 +1,61 @@
+# -------------------------------------------
+# Express DB Componet
+# -------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongoexpress-deployment # Name of the POD
+spec:
+  replicas: 1 # Number of the replicaset
+  selector:
+    matchLabels:
+      app: mongoexpress # DNS name data will be use by service for connetion
+  template:
+    metadata:
+      labels:
+        app: mongoexpress
+    spec:
+      containers:
+        - name: mongoexpress
+          image: mongo-express
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8081 # Port where mongoexpress listening
+          env:
+            - name: ME_CONFIG_MONGODB_ADMINUSERNAME # Value for the DB
+              # Get the data from mongodb-secret service
+              valueFrom:
+                secretKeyRef: # SecretService Ref
+                  name: mongodb-secret # Name of the secret service
+                  key: mongo_user # Value ref name
+                  
+            - name: ME_CONFIG_MONGODB_ADMINPASSWORD # Value for the DB
+              valueFrom:
+                secretKeyRef: # SecretService Ref
+                  name: mongodb-secret # Name of the secret service
+                  key: mongo_password # Value ref name
+
+            - name: ME_CONFIG_MONGODB_SERVER
+              valueFrom:
+                configMapKeyRef: # ConfigMap Ref
+                  name: configmap-general # Name of the configmap service
+                  key: mongodb_url # Value ref name
+---
+# -------------------------------------------
+# External Service for web Browser
+# -------------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-express # Name of the service
+spec:
+  selector:
+    app: mongoexpress # Name of the ref component
+  type: LoadBalancer # type of the service ( https://kubernetes.io/docs/concepts/services-networking/service/ )
+  ports:
+  - port: 8081 # Open Port ( Internal )
+    targetPort: 8081 # Target port
+    nodePort: 30000 # Open Port ( External Service 30000 -> 32767 )

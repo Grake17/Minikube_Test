@@ -1,0 +1,9 @@
+# -------------------------------------------
+# Config Map for internal Componet / Service
+# -------------------------------------------
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-general # Name of the config map service
+data:
+  mongodb_url: mongodb-service # Link of the db service
