@@ -1,12 +1,12 @@
 # -------------------------------------------
-# Mongo DB Componet ( Abstraction of container where mongodb run )
+# Mongo DB Component ( Abstraction of container where mongodb run )
 # -------------------------------------------
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongodb-deployment # Name of the componet
+  name: mongodb-deployment # Name of the component
 spec:
-  replicas: 1 # Number of the replicas componet
+  replicas: 1 # Number of the replicas component
   selector:
     matchLabels:
       app: mongodb # DNS name data will be use by service for connetion
@@ -27,14 +27,14 @@ spec:
           env:
             - name: MONGO_INITDB_ROOT_USERNAME # Env Var https://hub.docker.com/_/mongo
               valueFrom:
-                # This data is get from the Secret Componet
+                # This data is get from the Secret component
                 secretKeyRef:
                   name: mongodb-secret # Name of the service
                   key: mongo_user # Name of the data
 
             - name: MONGO_INITDB_ROOT_PASSWORD # Env Var https://hub.docker.com/_/mongo
               valueFrom:
-                # This data is get from the Secret Componet
+                # This data is get from the Secret component
                 secretKeyRef:
                   name: mongodb-secret # Name of the service
                   key: mongo_password # Name of the data
