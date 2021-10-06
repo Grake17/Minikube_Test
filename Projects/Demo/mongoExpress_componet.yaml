@@ -20,8 +20,8 @@ spec:
           image: mongo-express
           resources:
             limits:
-              memory: "128Mi"
-              cpu: "500m"
+              memory: "256Mi"
+              cpu: "1000m"
           ports:
             - containerPort: 8081 # Port where mongoexpress listening
           env:

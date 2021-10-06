@@ -20,8 +20,8 @@ spec:
           image: mongo # https://hub.docker.com/_/mongo
           resources:
             limits:
-              memory: "128Mi"
-              cpu: "500m"
+              memory: "256Mi"
+              cpu: "1000m"
           ports:
             - containerPort: 27017 # The port of mongo-db listening ( the port must be the same of db-image )
           env:
