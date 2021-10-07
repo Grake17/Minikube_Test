@@ -1,0 +1,17 @@
+# -------------------------
+# External Service ofr web browser
+# -------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongoexpress-service # Name of the service
+  namespace: web # NameSpace ( create befor the components )
+spec:
+  selector: 
+    app: mongoexpress-deployment # Label of the pod
+  type: LoadBalancer
+  ports:
+    - port: 8081 # Port of the service
+      targetPort: 8081 # Port of the pod
+      nodePort: 30001 # External port ( 30000 <= x <= 32767 )
+

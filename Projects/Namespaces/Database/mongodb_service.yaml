@@ -1,0 +1,14 @@
+# -------------------------
+# Service of MongoDB Delpoyement
+# -------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+  namespace: database
+spec:
+  selector:
+    app: mongodb-deployment
+  ports:
+    - port: 27017 # Port where the service listening
+      targetPort: 27017 # Port where the DB Pod listening

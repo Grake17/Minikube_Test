@@ -1,0 +1,38 @@
+# -------------------------
+#  MongoDb Deploy
+# -------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb # Name of the deployment
+  namespace: database # NameSpace Name
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb-deployment # Name for service selector
+  template:
+    metadata:
+      labels:
+        app: mongodb-deployment # Name for service selector
+    spec:
+      containers:
+        - name: mongodb # name of the container
+          image: mongo # name of the image
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "1000m"
+          ports:
+            - containerPort: 27017 # Open port of the mongo db
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME # Env var for user
+              valueFrom:
+                secretKeyRef:
+                  name: database-secret # Link to the service with specified the name space
+                  key: db_user_root # Value from secret service
+            - name: MONGO_INITDB_ROOT_PASSWORD # Env for db password
+              valueFrom:
+                secretKeyRef:
+                  name: database-secret # value from secret service
+                  key: db_password # secret env value name

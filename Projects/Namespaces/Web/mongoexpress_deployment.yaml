@@ -1,0 +1,50 @@
+# -------------------------
+# Mongo Express Deployment
+# -------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongoexpress # Name of the deploy
+  namespace: web # NameSpace
+spec:
+  selector:
+    matchLabels:
+      app: mongoexpress-deployment # Name target for selector service
+  template:
+    metadata:
+      labels:
+        app: mongoexpress-deployment # Name target for selector service
+    spec:
+      containers:
+        - name: mongoexpress # Name of the container
+          image: mongo-express # Docker Image ( https://hub.docker.com/_/mongo-express?tab=tags&page=1&ordering=last_updated )
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "1000m"
+          ports:
+            - containerPort: 8081 # Open port of the deploy
+          env:
+            - name: ME_CONFIG_MONGODB_ADMINUSERNAME # DB User Password
+              valueFrom:
+                secretKeyRef:
+                  name: secret-web
+                  key: db_user_root
+
+            - name: ME_CONFIG_MONGODB_ADMINPASSWORD # DB Password User
+              valueFrom:
+                secretKeyRef:
+                  name: secret-web
+                  key: db_password
+
+            - name: ME_CONFIG_MONGODB_SERVER # DB Url
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap-web
+                  key: db_url
+            
+            - name: ME_CONFIG_MONGODB_ENABLE_ADMIN # Enable Admin
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap-web
+                  key: admin_enable

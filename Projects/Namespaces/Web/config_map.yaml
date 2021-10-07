@@ -1,0 +1,11 @@
+# -------------------------
+# Config Map of Web NameSpace
+# -------------------------
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-web #  Name of the Component
+  namespace: web # NameSpace for splitting node
+data:
+  db_url: mongodb-service.database # url for db_service
+  admin_enable: "true"
