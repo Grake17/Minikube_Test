@@ -1,0 +1,31 @@
+{
+  "name": "kube-exercise",
+  "version": "1.0.0",
+  "description": "This is the first project made with Kubernets. <br/>\r For learning more about this technology I watched a tutorial on [Youtube](https://www.youtube.com/watch?v=X48VuDVv0do) made by Nana.",
+  "main": "app.js",
+  "scripts": {
+    "build-watch": "npx tsc --watch",
+    "start": "npx nodemon ./App/dist/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/Grake17/kube-exercise.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/Grake17/kube-exercise/issues"
+  },
+  "homepage": "https://gitlab.com/Grake17/kube-exercise#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "fastify": "^3.22.0",
+    "fastify-autoload": "^3.9.0",
+    "nodemon": "^2.0.13"
+  },
+  "devDependencies": {
+    "@types/node": "^16.10.3",
+    "typescript": "^4.4.3"
+  }
+}

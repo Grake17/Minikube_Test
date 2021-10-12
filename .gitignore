@@ -1,1 +1,10 @@
-Projects/Namespaces/IngressRules
+# Exclude folder
+
+App/dist/
+node_modules/
+
+# Exlude Config File
+
+.env
+config.json
+package-lock.json
