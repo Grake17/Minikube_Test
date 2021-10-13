@@ -1,0 +1,35 @@
+# =============================
+# Backend Deployment
+# =============================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-pod # Deploy Name
+  namespace: web # Namespace
+spec:
+  replicas: 1 # Number of the replicas ( LoadBalancer )
+  selector:
+    matchLabels:
+      app: backend-deploy # Labels Name for Service Selector
+  template:
+    metadata:
+      labels:
+        app: backend-deploy # Labels Name for Service Selector
+    spec:
+      containers:
+        - name: backend-container # Name of the container
+          image: node # Image ( https://hub.docker.com/_/node )
+          resources:
+            limits:
+              memory: "128Mi" # Ram Limits
+              cpu: "500m" # CPU Limits
+          ports:
+            - containerPort: 4161
+      initContainers:
+        - name: repo-setting
+          image: alpine/git
+          command:
+            - "git clone https://github.com/Grake17/Minikube_Test"
+            - "npm i -y"
+            - "npm run build"
+            - "npm run start"

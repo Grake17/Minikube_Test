@@ -1,12 +1,12 @@
 {
   "name": "kube-exercise",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "This is the first project made with Kubernets. <br/>\r For learning more about this technology I watched a tutorial on [Youtube](https://www.youtube.com/watch?v=X48VuDVv0do) made by Nana.",
   "main": "app.js",
   "scripts": {
     "build-watch": "npx tsc --watch",
     "start": "npx nodemon ./App/dist/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc"
   },
   "repository": {
     "type": "git",

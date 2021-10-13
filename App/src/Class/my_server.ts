@@ -26,11 +26,15 @@ export class MyServer {
 
   public StartListening(): void {
     this.RegRoutes();
-    this.fastify.listen(this.env.WEB_PORT, (err: Error, addr: string) => {
-      if (err) throw err;
-      return console.log(
-        `The server start listening on port: ${this.env.WEB_PORT}`
-      );
-    });
+    this.fastify.listen(
+      this.env.WEB_PORT,
+      "0.0.0.0",
+      (err: Error, addr: string) => {
+        if (err) throw err;
+        return console.log(
+          `The server start listening on port: ${this.env.WEB_PORT}`
+        );
+      }
+    );
   }
 }
